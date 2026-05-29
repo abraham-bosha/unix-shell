@@ -9,7 +9,8 @@ SRC = \
     src/core/loop.c \
     src/core/prompt.c \
     src/parse/parser.c \
-    src/util/debug.c
+    src/util/debug.c \
+    src/exec/exec_command.c
 
 OBJ = $(SRC:.c=.o)
 

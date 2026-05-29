@@ -10,6 +10,7 @@
 #include "parse.h"
 #include "pipeline.h"
 #include "debug.h"
+#include "exec.h"
 
 void shell_loop(void)
 {
@@ -34,7 +35,7 @@ void shell_loop(void)
 
         if (pipeline)
         {
-            pipeline_dump(pipeline);
+            execute_pipeline(pipeline);
             pipeline_destroy(pipeline);
         }
 
