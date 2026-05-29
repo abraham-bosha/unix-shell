@@ -1,9 +1,13 @@
 #include <stdio.h>
 
+#include "shell.h"
+
 int main(void) 
 {
-    printf("unix-shell starting...\n");
-    return 0;
+    shell_init();
+    shell_loop();
+
+    return (0);
 }
 
 
