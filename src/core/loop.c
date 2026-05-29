@@ -7,6 +7,9 @@
 
 #include "shell.h"
 #include "prompt.h"
+#include "parse.h"
+#include "pipeline.h"
+#include "debug.h"
 
 void shell_loop(void)
 {
@@ -24,6 +27,16 @@ void shell_loop(void)
 
         if (*line != '\0')
             add_history(line);
+
+        pipeline_t *pipeline;
+
+        pipeline = pipeline_create(line);
+
+        if (pipeline)
+        {
+            pipeline_dump(pipeline);
+            pipeline_destroy(pipeline);
+        }
 
         free(line);
     }
