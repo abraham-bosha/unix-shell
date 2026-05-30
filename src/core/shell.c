@@ -2,6 +2,8 @@
 
 #include "shell.h"
 
+shell_t *shell;
+
 int main(void) 
 {
     shell_init();

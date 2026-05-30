@@ -35,7 +35,7 @@ void shell_loop(void)
 
         if (pipeline)
         {
-            execute_pipeline(pipeline);
+            shell->last_status = execute_pipeline(pipeline);
             pipeline_destroy(pipeline);
         }
 

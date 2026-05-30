@@ -1,87 +1,90 @@
+#include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <stdio.h>
 
 #include "exec.h"
 
-static int execute_two_command_pipeline(command_t *left, command_t *right)
+static int execute_multi_command_pipeline(pipeline_t *pipeline) 
 {
-    int pipefd[2];
-    
-    if (pipe(pipefd) < 0)
-    {
-        perror("pipe");
+    pid_t *pids;
+    int prev_read;
+    size_t i;
+
+    prev_read = -1;
+
+    pids = calloc(pipeline->cmdc, sizeof(*pids));
+
+    if (!pids)
         return (-1);
-    }
 
-    pid_t left_pid;
-
-    left_pid = fork();
-
-    if (left_pid < 0)
+    for (i = 0; i < pipeline->cmdc; i++)
     {
-        perror("fork");
+        bool last;
 
-        close(pipefd[0]);
-        close(pipefd[1]);
+        last = (i == pipeline->cmdc - 1);
+        
+        int pipefd[2];
 
-        return (-1);
-    }
-    
-    if (left_pid == 0) 
-    {
-        if (dup2(pipefd[1], STDOUT_FILENO) < 0) 
+        if (!last)
         {
-            perror("dup2");
+            if (pipe(pipefd) < 0)
+            {
+                perror("pipe");
+                _exit(1);
+            }
+        }
+
+        pids[i] = fork();
+
+        if (pids[i] < 0)
+        {
+            perror("fork");
             _exit(1);
         }
         
-        close(pipefd[0]);
-        close(pipefd[1]);
+        if (pids[i] == 0) {
+            
+            if (prev_read != -1) {
+                
+                dup2(prev_read, STDIN_FILENO);
+                
+                close(prev_read);
+            }
+            
+            if (!last) {
+                
+                dup2(pipefd[1], STDOUT_FILENO);
 
-        exec_command_or_die(left);
-    }
+                close(pipefd[0]);
+                close(pipefd[1]);
+            }
 
-    pid_t right_pid;
-    
-    right_pid = fork();
-
-    if (right_pid < 0)
-    {
-        perror("fork");
-
-        close(pipefd[0]);
-        close(pipefd[1]);
-
-        return (-1);
-    }
-
-    if (right_pid == 0)
-    {
-        if (dup2(pipefd[0], STDIN_FILENO) < 0)
-        {
-            perror("dup2");
-            _exit(1);
+            exec_command_or_die(&pipeline->commands[i]);
         }
-        
-        close(pipefd[0]);
-        close(pipefd[1]);
 
-        exec_command_or_die(right); 
+        if (prev_read != -1)
+            close(prev_read);
+
+        if (!last)
+        {
+            prev_read = pipefd[0];
+            close(pipefd[1]);
+        }
     }
 
-    close(pipefd[0]);
-    close(pipefd[1]);
+    int last_status = 0;
 
-    int status;
+    for (size_t i = 0; i < pipeline->cmdc; i++)
+    {
+        waitpid(pids[i], &last_status, 0);
+    }
 
-    waitpid(left_pid, NULL, 0);
+    free(pids);
 
-    waitpid(right_pid, &status, 0);
+    report_status(last_status);
 
-    report_status(status);
-
-    return (status);
+    return decode_exit_status(last_status);
 }
 
 int execute_pipeline(pipeline_t *pipeline)
@@ -89,17 +92,7 @@ int execute_pipeline(pipeline_t *pipeline)
     if (!pipeline)
         return (-1);
 
-    if (pipeline->cmdc == 1)
-        return execute_command(&pipeline->commands[0]);
-
-    if (pipeline->cmdc == 2)
-    {
-        return execute_two_command_pipeline(&pipeline->commands[0], &pipeline->commands[1]);
-    }
-
-    fprintf(stderr, "multi-stage pipeline not implemented");
-
-    return (-1);
+    return execute_multi_command_pipeline(pipeline);
 }
 
 

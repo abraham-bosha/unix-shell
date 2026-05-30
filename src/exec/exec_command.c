@@ -22,6 +22,17 @@ void report_status(int status)
 #endif
 }
 
+int decode_exit_status(int status) 
+{
+    if (WIFEXITED(status))
+        return WEXITSTATUS(status);
+
+    if (WIFSIGNALED(status))
+        return 128 + WTERMSIG(status);
+
+    return 1;
+}
+
 void exec_command_or_die(command_t *cmd) 
 {
     execvp(cmd->argv[0], cmd->argv);
@@ -29,32 +40,5 @@ void exec_command_or_die(command_t *cmd)
     perror(cmd->argv[0]);
 
     _exit(127);
-}
-
-int execute_command(command_t *cmd)
-{
-    pid_t pid;
-    int status;
-
-    pid = fork();
-
-    if (pid < 0)
-    {
-        perror("fork");
-        return (-1);
-    }
-
-    if (pid == 0)
-        exec_command_or_die(cmd);
-
-    if (waitpid(pid, &status, 0) < 0)
-    {
-        perror("waitpid");
-        return (-1);
-    }
-
-    report_status(status);
-
-    return (status);
 }
 
