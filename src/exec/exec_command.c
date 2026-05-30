@@ -5,7 +5,7 @@
 
 #include "exec.h"
 
-static void report_status(int status)
+void report_status(int status)
 {
     if (WIFEXITED(status))
         printf("[exit=%d]\n", WEXITSTATUS(status));
@@ -22,7 +22,16 @@ static void report_status(int status)
 #endif
 }
 
-static int execute_command(command_t *cmd)
+void exec_command_or_die(command_t *cmd) 
+{
+    execvp(cmd->argv[0], cmd->argv);
+
+    perror(cmd->argv[0]);
+
+    _exit(127);
+}
+
+int execute_command(command_t *cmd)
 {
     pid_t pid;
     int status;
@@ -36,12 +45,7 @@ static int execute_command(command_t *cmd)
     }
 
     if (pid == 0)
-    {
-        execvp(cmd->argv[0], cmd->argv);
-
-        perror(cmd->argv[0]);
-        _exit(127);
-    }
+        exec_command_or_die(cmd);
 
     if (waitpid(pid, &status, 0) < 0)
     {
@@ -52,19 +56,5 @@ static int execute_command(command_t *cmd)
     report_status(status);
 
     return (status);
-}
-
-int execute_pipeline(pipeline_t *pipeline)
-{
-    if (!pipeline)
-        return (-1);
-
-    if (pipeline->cmdc != 1)
-    {
-        fprintf(stderr, "pipelines not implemented yet\n");
-        return (-1);
-    }
-    
-    return execute_command(&pipeline->commands[0]);
 }
 
