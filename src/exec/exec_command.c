@@ -4,6 +4,8 @@
 #include <stdio.h>
 
 #include "exec.h"
+#include "command.h"
+#include "redirection.h"
 
 void report_status(int status)
 {
@@ -35,6 +37,9 @@ int decode_exit_status(int status)
 
 void exec_command_or_die(command_t *cmd) 
 {
+    if (apply_redirections(cmd) < 0)
+        _exit(1);
+
     execvp(cmd->argv[0], cmd->argv);
 
     perror(cmd->argv[0]);

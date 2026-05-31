@@ -18,6 +18,16 @@ void pipeline_dump(const pipeline_t *pipeline)
 
         for (j = 0; j < pipeline->commands[i].argc; j++)
             printf("argv[%zu] = \"%s\"\n", j, pipeline->commands[i].argv[j]);
+        
+        printf("\n");
+        printf("redirs[%zu]\n", i);
+
+        for (j = 0; j < pipeline->commands[i].redirc; j++)
+        {
+            printf("path = \"%s\"\n", pipeline->commands[i].redirs[j].path);
+            printf("fd = %d\n", pipeline->commands[i].redirs[j].fd);
+            printf("type = %d\n", pipeline->commands[i].redirs[j].type);
+        }
     }
 }
 

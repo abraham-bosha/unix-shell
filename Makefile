@@ -9,9 +9,13 @@ SRC = \
     src/core/loop.c \
     src/core/prompt.c \
     src/parse/parser.c \
+    src/parse/command.c \
+    src/parse/pipeline.c \
+    src/parse/redirection.c \
     src/util/debug.c \
     src/exec/exec_command.c \
-    src/exec/exec_pipeline.c
+    src/exec/exec_pipeline.c \
+    src/exec/exec_redirection.c
 
 OBJ = $(SRC:.c=.o)
 

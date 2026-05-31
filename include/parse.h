@@ -3,7 +3,6 @@
 
 #include "pipeline.h"
 
-pipeline_t *pipeline_create(const char *line);
-void pipeline_destroy(pipeline_t *pipeline);
+pipeline_t* parse_line(const char *line);
 
 #endif

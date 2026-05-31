@@ -17,4 +17,10 @@ typedef struct pipeline
     bool background;
 } pipeline_t;
 
+pipeline_t *pipeline_create(const char *line);
+
+void pipeline_destroy(pipeline_t *pipeline);
+
+bool validate_pipeline_syntax(const char *line, char *unexpected);
+
 #endif

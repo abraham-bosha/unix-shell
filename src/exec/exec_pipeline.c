@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include "exec.h"
+#include "command.h"
 
 static int execute_multi_command_pipeline(pipeline_t *pipeline) 
 {
@@ -82,7 +83,7 @@ static int execute_multi_command_pipeline(pipeline_t *pipeline)
 
     free(pids);
 
-    report_status(last_status);
+    // report_status(last_status);
 
     return decode_exit_status(last_status);
 }

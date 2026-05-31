@@ -6,6 +6,7 @@
 #include <readline/history.h>
 
 #include "shell.h"
+#include "command.h"
 #include "prompt.h"
 #include "parse.h"
 #include "pipeline.h"
@@ -31,7 +32,7 @@ void shell_loop(void)
 
         pipeline_t *pipeline;
 
-        pipeline = pipeline_create(line);
+        pipeline = parse_line(line);
 
         if (pipeline)
         {
