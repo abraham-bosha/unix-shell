@@ -8,6 +8,7 @@ SRC = \
     src/core/init.c \
     src/core/loop.c \
     src/core/prompt.c \
+    src/parse/lexer.c \
     src/parse/parser.c \
     src/parse/command.c \
     src/parse/pipeline.c \
@@ -15,7 +16,9 @@ SRC = \
     src/util/debug.c \
     src/exec/exec_command.c \
     src/exec/exec_pipeline.c \
-    src/exec/exec_redirection.c
+    src/exec/exec_redirection.c \
+    src/builtin/builtin.c \
+    src/builtin/pwd.c
 
 OBJ = $(SRC:.c=.o)
 

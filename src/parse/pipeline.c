@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "parser_internal.h"
 #include "pipeline.h"
 #include "command.h"
 

@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include "parser_internal.h"
 #include "parse.h"
 #include "pipeline.h"
 #include "redirection.h"

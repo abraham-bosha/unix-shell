@@ -13,14 +13,8 @@ typedef struct command
     size_t redirc;
 } command_t;
 
-char *parse_word(char **cursor);
-
-void parse_command(command_t *cmd, char *segment);
-
 int command_add_argument(command_t *cmd, char *arg);
 
 void command_destroy(command_t *cmd);
-
-bool validate_redirection_syntax(const char *line, char *msg);
 
 #endif

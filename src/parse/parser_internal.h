@@ -1,0 +1,24 @@
+#ifndef PARSER_INTERNAL_H
+#define PARSER_INTERANL_H
+
+#include "command.h"
+#include "pipeline.h"
+#include "redirection.h"
+
+char *parse_word(char **cursor);
+
+void parse_command(command_t *cmd, char *segment);
+
+int parse_redirection(command_t *cmd, char **cursor);
+
+bool validate_pipeline_syntax(
+    const char *line,
+    char *unexpected
+);
+
+bool validate_redirection_syntax(
+    const char *line,
+    char *unexpected
+);
+
+#endif

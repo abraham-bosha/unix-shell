@@ -83,7 +83,9 @@ static int execute_multi_command_pipeline(pipeline_t *pipeline)
 
     free(pids);
 
-    // report_status(last_status);
+#ifdef DEBUG
+    report_status(last_status);
+#endif
 
     return decode_exit_status(last_status);
 }

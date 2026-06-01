@@ -1,24 +1,9 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+#include "parser_internal.h"
 #include "command.h"
 #include "redirection.h"
-
-char *parse_word(char **cursor)
-{
-    char *word = *cursor;
-
-    while (**cursor && !isspace((unsigned char)**cursor) && **cursor != '<' && **cursor != '>') 
-        (*cursor)++;
-    
-    if (**cursor)
-    {
-        **cursor = '\0';    
-        (*cursor)++;
-    }
-
-    return word;
-}
 
 int command_add_argument(command_t *command, char *arg)
 {

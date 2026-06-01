@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <ctype.h>
 
+#include "parser_internal.h"
 #include "redirection.h"
 #include "command.h"
 

@@ -2,6 +2,7 @@
 #define REDIRECTION_H
 
 #include <stdbool.h>
+
 typedef struct command command_t;
 
 typedef enum redir_type
@@ -21,11 +22,7 @@ typedef struct redirection
 
 } redirection_t;
 
-bool validate_redirection_syntax(const char *line, char *unexpected);
-
 int command_add_redirection(command_t *command, int fd, redir_type_t type, const char *path);
-
-int parse_redirection(command_t *cmd, char **cursor);
 
 int apply_redirections(command_t *cmd);
 
