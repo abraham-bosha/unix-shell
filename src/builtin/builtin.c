@@ -1,8 +1,10 @@
 #include <string.h>
 
 #include "command.h"
+#include "builtin.h"
 
-extern int build_pwd(command_t *cmd);
+extern int builtin_pwd(command_t *cmd);
+extern int builtin_exit(command_t *cmd);
 
 int is_builtin(command_t *cmd)
 {
@@ -12,16 +14,22 @@ int is_builtin(command_t *cmd)
     if (cmd->argc == 0)
         return 0;
 
-    return (strcmp(cmd->argv[0], "pwd") == 0);
+    return (
+        strcmp(cmd->argv[0], "pwd") == 0 ||
+        strcmp(cmd->argv[0], "exit") == 0
+    );
 }
 
 int execute_builtin(command_t *cmd)
 {
 
     if (strcmp(cmd->argv[0], "pwd") == 0)
-    {
-        return build_pwd(cmd);
-    }
+
+        return builtin_pwd(cmd);
+
+    else if (strcmp(cmd->argv[0], "exit") == 0)
+
+        return builtin_exit(cmd);
 
     return (1);
 

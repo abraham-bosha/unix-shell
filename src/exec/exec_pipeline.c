@@ -5,6 +5,7 @@
 
 #include "exec.h"
 #include "command.h"
+#include "debug.h"
 
 static int execute_multi_command_pipeline(pipeline_t *pipeline) 
 {
@@ -79,13 +80,13 @@ static int execute_multi_command_pipeline(pipeline_t *pipeline)
     for (size_t i = 0; i < pipeline->cmdc; i++)
     {
         waitpid(pids[i], &last_status, 0);
+#ifdef DEBUG
+        DEBUG_PRINT("child[%zu] pid=%d\n", i, pids[i]);
+        debug_status(last_status);
+#endif
     }
 
     free(pids);
-
-#ifdef DEBUG
-    report_status(last_status);
-#endif
 
     return decode_exit_status(last_status);
 }

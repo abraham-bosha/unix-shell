@@ -4,7 +4,7 @@
 
 #include "command.h"
 
-int build_pwd(command_t *cmd)
+int builtin_pwd(command_t *cmd)
 {
     (void)cmd;
 

@@ -38,7 +38,7 @@ void shell_loop(void)
             continue;
         
 #ifdef DEBUG
-        pipeline_dump(pipeline);
+        debug_pipeline(pipeline);
 #endif
 
         if (pipeline->cmdc == 1 && is_builtin(&pipeline->commands[0]))
