@@ -3,6 +3,7 @@
 
 typedef struct shell
 {
+    char *oldpwd;
     int last_status;
 } shell_t;
 

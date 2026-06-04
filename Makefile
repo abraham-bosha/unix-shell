@@ -25,7 +25,8 @@ SRC = \
     src/exec/exec_redirection.c \
     src/builtin/builtin.c \
     src/builtin/pwd.c \
-    src/builtin/exit.c
+    src/builtin/exit.c \
+    src/builtin/cd.c
 
 OBJ = $(SRC:.c=.o)
 

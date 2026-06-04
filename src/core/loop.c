@@ -43,7 +43,7 @@ void shell_loop(void)
 
         if (pipeline->cmdc == 1 && is_builtin(&pipeline->commands[0]))
 
-            shell->last_status = execute_builtin(&pipeline->commands[0]);
+            shell->last_status = execute_builtin(shell, &pipeline->commands[0]);
         
         else
             
