@@ -142,3 +142,7 @@ int parse_redirection(command_t *cmd, char **cursor)
     return command_add_redirection(cmd, fd, type, path);
 }
 
+void redirection_destroy(command_t *cmd)
+{
+    free(cmd->redirs);
+}

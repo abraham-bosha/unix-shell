@@ -1,5 +1,7 @@
+#include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <stddef.h>
 
 #include "parser_internal.h"
 #include "command.h"
@@ -8,15 +10,23 @@
 int command_add_argument(command_t *command, char *arg)
 {
     char **tmp;
+    char *copy;
+
+    copy = strdup(arg);
+    if (!copy)
+        return (-1);
 
     tmp = realloc(command->argv, sizeof(*tmp) * (command->argc + 2));
 
     if (!tmp)
+    {
+        free(copy);
         return (-1);
+    }
 
     command->argv = tmp;
 
-    command->argv[command->argc] = arg;
+    command->argv[command->argc] = copy;
 
     command->argc++;
 
@@ -46,13 +56,20 @@ void parse_command(command_t *cmd, char *segment)
         
         arg = parse_word(&token);
 
-        command_add_argument(cmd, arg);
+        if (command_add_argument(cmd, arg) < 0)
+            return;
     }
 }
 
 void command_destroy(command_t *cmd)
 {
+    if (!cmd)
+        return;
+
+    for (size_t i = 0; i < cmd->argc; i++)
+        free(cmd->argv[i]);
+
     free(cmd->argv);
 
-    free(cmd->redirs);
+    redirection_destroy(cmd);
 }

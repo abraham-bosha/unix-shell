@@ -20,13 +20,15 @@ SRC = \
     src/parse/pipeline.c \
     src/parse/redirection.c \
     src/util/debug.c \
+    src/exec/exec_path.c \
     src/exec/exec_command.c \
     src/exec/exec_pipeline.c \
     src/exec/exec_redirection.c \
     src/builtin/builtin.c \
     src/builtin/pwd.c \
     src/builtin/exit.c \
-    src/builtin/cd.c
+    src/builtin/cd.c \
+    src/expand/expand.c 
 
 OBJ = $(SRC:.c=.o)
 

@@ -4,7 +4,7 @@
 typedef struct shell
 {
     char *oldpwd;
-    int last_status;
+    int last_exit_status;
 } shell_t;
 
 extern shell_t *shell;

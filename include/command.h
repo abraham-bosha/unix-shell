@@ -2,14 +2,17 @@
 #define COMMAND_H
 
 #include <stddef.h>
+#include <stdbool.h>
 #include "redirection.h"
 
 typedef struct command
 {
     char **argv;
+
     size_t argc;
 
     redirection_t *redirs;
+    
     size_t redirc;
 } command_t;
 

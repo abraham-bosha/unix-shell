@@ -26,5 +26,7 @@ int command_add_redirection(command_t *command, int fd, redir_type_t type, const
 
 int apply_redirections(command_t *cmd);
 
+void redirection_destroy(command_t *cmd);
+
 #endif
 

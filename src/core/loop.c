@@ -12,11 +12,12 @@
 #include "debug.h"
 #include "exec.h"
 #include "builtin.h"
+#include "expand.h"
 
 void shell_loop(void)
 {
     char *line;
-    
+
     while (true)
     {
         line = readline(prompt_build());
@@ -35,19 +36,40 @@ void shell_loop(void)
         pipeline = parse_line(line);
 
         if (!pipeline)
+        {
+            shell->last_exit_status = 1;
+            free(line);
             continue;
+        }
         
 #ifdef DEBUG
         debug_pipeline(pipeline);
 #endif
 
-        if (pipeline->cmdc == 1 && is_builtin(&pipeline->commands[0]))
+        if (expand_pipeline(shell, pipeline) < 0)
+        {
+            fprintf(stderr, "unix-shell: expansion failed");
 
-            shell->last_status = execute_builtin(shell, &pipeline->commands[0]);
-        
-        else
+            shell->last_exit_status = 1;
+
+            pipeline_destroy(pipeline);
             
-            shell->last_status = execute_pipeline(pipeline);
+            free(line);
+            
+            continue;
+        }
+
+        if (pipeline->cmdc == 1 && is_builtin(&pipeline->commands[0]))
+        {
+
+            shell->last_exit_status = execute_builtin(shell, &pipeline->commands[0]);
+        
+        } else 
+        {
+            
+            shell->last_exit_status = execute_pipeline(pipeline);
+
+        }
 
         pipeline_destroy(pipeline);
 

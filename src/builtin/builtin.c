@@ -11,10 +11,10 @@ extern int builtin_cd(shell_t *shell, command_t *cmd);
 int is_builtin(command_t *cmd)
 {
     if (!cmd)
-        return 0;
+        return (0);
 
     if (cmd->argc == 0)
-        return 0;
+        return (0);
 
     return (
         strcmp(cmd->argv[0], "pwd") == 0 ||

@@ -9,7 +9,7 @@ int shell_init(void)
     if (!shell)
         return (-1);
 
-    shell->last_status = 0;
+    shell->last_exit_status = 0;
 
     return (0);
 }
