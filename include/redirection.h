@@ -18,11 +18,11 @@ typedef struct redirection
 
     redir_type_t type;
 
-    const char *path;
+    char *path;
 
 } redirection_t;
 
-int command_add_redirection(command_t *command, int fd, redir_type_t type, const char *path);
+int command_add_redirection(command_t *command, int fd, redir_type_t type, char *path);
 
 int apply_redirections(command_t *cmd);
 

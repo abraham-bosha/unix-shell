@@ -4,8 +4,9 @@
 #include "command.h"
 #include "pipeline.h"
 #include "redirection.h"
+#include "argument.h"
 
-char *parse_word(char **cursor);
+char *parse_word(char **cursor, quote_type_t *quote);
 
 void parse_command(command_t *cmd, char *segment);
 

@@ -8,7 +8,6 @@
 
 typedef struct pipeline
 {
-    char *source;
     char *scratch;
 
     command_t *commands;

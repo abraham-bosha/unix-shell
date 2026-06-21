@@ -98,10 +98,9 @@ pipeline_t *pipeline_create(const char *line)
     if (!pipeline)
         return (NULL);
 
-    pipeline->source = strdup(line);
     pipeline->scratch = strdup(line);
 
-    if (!pipeline->source || !pipeline->scratch)
+    if (!pipeline->scratch)
     {
         pipeline_destroy(pipeline);
         return (NULL);
@@ -131,7 +130,6 @@ void pipeline_destroy(pipeline_t *pipeline)
         command_destroy(&pipeline->commands[i]);
 
     free(pipeline->commands);
-    free(pipeline->source);
     free(pipeline->scratch);
 
     free(pipeline);

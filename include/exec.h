@@ -11,4 +11,6 @@ void report_status(int status);
 
 int decode_exit_status(int status);
 
+int pipeline_build_argv(pipeline_t *pipeline);
+
 #endif

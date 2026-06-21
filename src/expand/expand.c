@@ -6,6 +6,7 @@
 
 #include "expand.h"
 #include "pipeline.h"
+#include "argument.h"
 
 static bool is_variable(const char *arg)
 {
@@ -42,9 +43,9 @@ static char *resolve_variable(shell_t *shell, const char *arg)
     return strdup(value);
 }
 
-static char *expand_arg(shell_t *shell, const char *arg)
+static char *expand_arg(shell_t *shell, char *arg)
 {
-    const char *value;
+    char *value;
 
     if (!is_variable(arg))
         return strdup(arg);
@@ -60,14 +61,19 @@ static int expand_command(shell_t *shell, command_t *cmd)
 
     for (size_t i = 0; i < cmd->argc; i++)
     {
-        expanded = expand_arg(shell, cmd->argv[i]);
+        argument_t *arg = &cmd->args[i];
+
+        if (arg->quote == QUOTE_SINGLE)
+            continue;
+
+        expanded = expand_arg(shell, arg->value);
 
         if (!expanded)
             return (-1);
 
-        free(cmd->argv[i]);
+        free(arg->value);
 
-        cmd->argv[i] = expanded;
+        arg->value = expanded;
     }
 
     return (0);

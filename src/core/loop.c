@@ -59,6 +59,18 @@ void shell_loop(void)
             continue;
         }
 
+        if (pipeline_build_argv(pipeline) < 0)
+        {
+            shell->last_exit_status = 1;
+
+            pipeline_destroy(pipeline);
+            
+            free(line);
+            
+            continue;
+        }
+
+
         if (pipeline->cmdc == 1 && is_builtin(&pipeline->commands[0]))
         {
 

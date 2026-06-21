@@ -28,7 +28,8 @@ SRC = \
     src/builtin/pwd.c \
     src/builtin/exit.c \
     src/builtin/cd.c \
-    src/expand/expand.c 
+    src/expand/expand.c \
+    src/exec/argv.c
 
 OBJ = $(SRC:.c=.o)
 

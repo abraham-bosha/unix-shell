@@ -85,7 +85,7 @@ bool validate_redirection_syntax(const char *line, char *unexpected)
     return true;
 }
 
-int command_add_redirection(command_t *command, int fd, redir_type_t type, const char *path)
+int command_add_redirection(command_t *command, int fd, redir_type_t type, char *path)
 {
     redirection_t *tmp;
 
@@ -109,7 +109,7 @@ int parse_redirection(command_t *cmd, char **cursor)
 {
     char *p = *cursor;
 
-    const char *path;
+    char *path;
     redir_type_t type;
     int fd;
 
@@ -122,27 +122,33 @@ int parse_redirection(command_t *cmd, char **cursor)
 
     if (*p == '<')
     {
-        path = parse_word(cursor);
+        path = parse_word(cursor, NULL);
         type = REDIR_INPUT;
         fd = STDIN_FILENO;
     }
     else if (*p == '>' && p[1] == '>')
     {
-        path = parse_word(cursor);
+        path = parse_word(cursor, NULL);
         type = REDIR_APPEND;
         fd = STDOUT_FILENO;
     }
     else if (*p == '>')
     {
-        path = parse_word(cursor);
+        path = parse_word(cursor, NULL);
         type = REDIR_OUTPUT;
         fd = STDOUT_FILENO;
     }
+
+    if (!path)
+        return (-1);
 
     return command_add_redirection(cmd, fd, type, path);
 }
 
 void redirection_destroy(command_t *cmd)
 {
+    for (size_t i = 0; i < cmd->redirc; i++)
+        free(cmd->redirs[i].path);
+
     free(cmd->redirs);
 }
