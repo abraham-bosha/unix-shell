@@ -23,13 +23,16 @@ SRC = \
     src/exec/exec_path.c \
     src/exec/exec_command.c \
     src/exec/exec_pipeline.c \
+    src/exec/argv.c \
     src/exec/exec_redirection.c \
     src/builtin/builtin.c \
     src/builtin/pwd.c \
     src/builtin/exit.c \
     src/builtin/cd.c \
-    src/expand/expand.c \
-    src/exec/argv.c
+    src/builtin/env.c \
+    src/builtin/export.c \
+    src/builtin/unset.c \
+    src/expand/expand.c
 
 OBJ = $(SRC:.c=.o)
 

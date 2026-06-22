@@ -35,10 +35,7 @@ static char *resolve_variable(shell_t *shell, const char *arg)
     value = getenv(arg);
 
     if (!value)
-    {
-        fprintf(stderr, "warning: undefined variable: %s\n", arg + 1);
         value = "";
-    }
 
     return strdup(value);
 }
