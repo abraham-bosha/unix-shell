@@ -32,7 +32,8 @@ SRC = \
     src/builtin/env.c \
     src/builtin/export.c \
     src/builtin/unset.c \
-    src/expand/expand.c
+    src/expand/expand.c \
+    src/variable/variable.c
 
 OBJ = $(SRC:.c=.o)
 

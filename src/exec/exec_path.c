@@ -1,8 +1,9 @@
-#include "exec_path.h"
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <stdio.h>
+
+#include "exec_path.h"
 
 static int is_executable(const char *path)
 {

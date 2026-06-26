@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <sys/wait.h>
+#include <stddef.h>
 
 #include "debug.h"
+#include "command.h"
 
 static void debug_command(const command_t *cmd)
 {

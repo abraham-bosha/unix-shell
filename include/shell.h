@@ -1,16 +1,27 @@
 #ifndef SHELL_H
 #define SHELL_H
 
+#include <stdbool.h>
+
+#include "variable.h"
+
 typedef struct shell
 {
-    char *oldpwd;
+    bool running;
+
+    int exit_status;
+
     int last_exit_status;
+
+    char *oldpwd;
+
+    variable_t *vars;
+
+    int varc;
+
 } shell_t;
 
-extern shell_t *shell;
-
-int shell_init(void);
-void shell_loop(void);
+int shell_init(shell_t *shell);
+void shell_loop(shell_t *shell);
 
 #endif
-

@@ -5,11 +5,11 @@
 #include "shell.h"
 
 extern int builtin_pwd(command_t *cmd);
-extern int builtin_exit(command_t *cmd);
+extern int builtin_exit(shell_t *shell, command_t *cmd);
 extern int builtin_cd(shell_t *shell, command_t *cmd);
 extern int builtin_env(command_t *cmd);
 extern int builtin_export(command_t *cmd);
-extern int builtin_unset(command_t *cmd);
+extern int builtin_unset(shell_t *shell, command_t *cmd);
 
 int is_builtin(command_t *cmd)
 {
@@ -38,7 +38,7 @@ int execute_builtin(shell_t *shell, command_t *cmd)
 
     else if (strcmp(cmd->argv[0], "exit") == 0)
 
-        return builtin_exit(cmd);
+        return builtin_exit(shell, cmd);
 
     else if (strcmp(cmd->argv[0], "cd") == 0)
 
@@ -58,7 +58,7 @@ int execute_builtin(shell_t *shell, command_t *cmd)
 
     else if (strcmp(cmd->argv[0], "unset") == 0)
 
-        return builtin_unset(cmd);
+        return builtin_unset(shell, cmd);
 
     return (1);
 

@@ -1,15 +1,22 @@
 #include <stdio.h>
 
 #include "shell.h"
-
-shell_t *shell;
+#include "variable.h"
 
 int main(void) 
 {
-    shell_init();
-    shell_loop();
+    shell_t shell;
 
-    return (0);
+    if (shell_init(&shell) < 0)
+        return 1; 
+
+    shell_init(&shell);
+    
+    shell_loop(&shell);
+
+    shell_destroy(&shell);
+
+    return shell.exit_status;
 }
 
 

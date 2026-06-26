@@ -7,6 +7,7 @@
 #include "expand.h"
 #include "pipeline.h"
 #include "argument.h"
+#include "variable.h"
 
 static bool is_variable(const char *arg)
 {
@@ -22,17 +23,20 @@ static char *itoa(int n)
     return strdup(status_str);
 }
 
-static char *resolve_variable(shell_t *shell, const char *arg)
+static const char *resolve_variable(shell_t *shell, const char *name)
 {
-    char *value;
+    const char *value;
 
-    if (strcmp(arg, "?") == 0)
+    if (strcmp(name, "?") == 0)
     {
         value = itoa(shell->last_exit_status);
         return value;
     }
 
-    value = getenv(arg);
+    value = shell_get_variable(shell, name);
+    
+    if (!value)
+        value = getenv(name);
 
     if (!value)
         value = "";
@@ -40,9 +44,9 @@ static char *resolve_variable(shell_t *shell, const char *arg)
     return strdup(value);
 }
 
-static char *expand_arg(shell_t *shell, char *arg)
+static const char *expand_arg(shell_t *shell, const char *arg)
 {
-    char *value;
+    const char *value;
 
     if (!is_variable(arg))
         return strdup(arg);
@@ -54,7 +58,7 @@ static char *expand_arg(shell_t *shell, char *arg)
 
 static int expand_command(shell_t *shell, command_t *cmd)
 {
-    char *expanded;
+    const char *expanded;
 
     for (size_t i = 0; i < cmd->argc; i++)
     {
@@ -70,7 +74,7 @@ static int expand_command(shell_t *shell, command_t *cmd)
 
         free(arg->value);
 
-        arg->value = expanded;
+        arg->value = (char *)expanded;
     }
 
     return (0);

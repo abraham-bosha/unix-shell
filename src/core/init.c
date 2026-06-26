@@ -1,15 +1,12 @@
-#include <stdlib.h>
+#include <string.h>
 
 #include "shell.h"
 
-int shell_init(void)
+int shell_init(shell_t *shell)
 {
-    shell = calloc(1, sizeof(*shell));
+    memset(shell, 0, sizeof(*shell));
 
-    if (!shell)
-        return (-1);
-
-    shell->last_exit_status = 0;
+    shell->running = true;
 
     return (0);
 }

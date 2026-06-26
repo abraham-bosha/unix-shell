@@ -81,7 +81,7 @@ bool validate_pipeline_syntax(const char *line, char *unexpected)
 
         expecting_command = false;
 
-        while(*line && !isspace((unsigned char)*line) && *line != '0')
+        while(*line && !isspace((unsigned char)*line) && *line != '\0')
             line++;
     }
 

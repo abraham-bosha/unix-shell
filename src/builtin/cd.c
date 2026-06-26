@@ -10,7 +10,7 @@ int builtin_cd(shell_t *shell, command_t *cmd)
 {
     if (cmd->argc > 2)
     {
-        fprintf(stderr, "cd: too many arguments\n");
+        fprintf(stderr, "unix-shell: cd: too many arguments\n");
         return (1);
     }
 
@@ -22,7 +22,7 @@ int builtin_cd(shell_t *shell, command_t *cmd)
         dest = getenv("HOME");
         if (dest == NULL)
         {
-            fprintf(stderr, "cd: HOME not set\n");
+            fprintf(stderr, "unix-shell: cd: HOME not set\n");
             return (1);
         }
     }
@@ -31,7 +31,7 @@ int builtin_cd(shell_t *shell, command_t *cmd)
         dest = shell->oldpwd;
         if (dest == NULL)
         {
-            fprintf(stderr, "cd: OLDPWD not set\n");
+            fprintf(stderr, "unix-shell: cd: OLDPWD not set\n");
             return (1);
         }
         
@@ -42,7 +42,7 @@ int builtin_cd(shell_t *shell, command_t *cmd)
         char *home_dir = getenv("HOME");
         if (home_dir == NULL)
         {
-            fprintf(stderr, "cd: HOME not set\n");
+            fprintf(stderr, "unix-shell: cd: HOME not set\n");
             return (1);
         }
 
